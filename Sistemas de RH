@@ -375,6 +375,24 @@
             transition: width 0.3s ease;
         }
 
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: #48bb78;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 3000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -396,55 +414,6 @@
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-        }
-
-        .notification {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            background: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            z-index: 3000;
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .chart-container {
-            height: 300px;
-            display: flex;
-            align-items: end;
-            justify-content: space-around;
-            padding: 2rem;
-            background: #f7fafc;
-            border-radius: 15px;
-            margin: 1rem 0;
-        }
-
-        .chart-bar {
-            width: 40px;
-            background: linear-gradient(to top, #667eea, #764ba2);
-            border-radius: 5px 5px 0 0;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .chart-bar:hover {
-            transform: scale(1.1);
-        }
-
-        .chart-label {
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            color: #4a5568;
         }
     </style>
 </head>
@@ -508,12 +477,6 @@
                     <a href="#" class="nav-link" onclick="showSection('relatorios')">
                         <span class="nav-icon">📈</span>
                         Relatórios & Analytics
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" onclick="showSection('compliance')">
-                        <span class="nav-icon">⚖️</span>
-                        Compliance & Legal
                     </a>
                 </li>
             </ul>
@@ -636,7 +599,7 @@
                 </div>
             </div>
 
-            <!-- Outras seções serão mostradas/ocultadas dinamicamente -->
+            <!-- Outras seções -->
             <div id="funcionarios" class="section" style="display: none;">
                 <div class="card">
                     <h3>Gestão de Funcionários</h3>
@@ -653,7 +616,53 @@
                 </div>
             </div>
 
-            <!-- Adicione outras seções conforme necessário -->
+            <div id="folha" class="section" style="display: none;">
+                <div class="card">
+                    <h3>Folha de Pagamento</h3>
+                    <p>Controle completo da folha de pagamento e benefícios.</p>
+                    <button class="btn btn-primary" onclick="showNotification('Folha processada com sucesso!')">Processar Folha</button>
+                </div>
+            </div>
+
+            <div id="treinamento" class="section" style="display: none;">
+                <div class="card">
+                    <h3>Treinamento & Desenvolvimento</h3>
+                    <p>Gerencie programas de capacitação e desenvolvimento profissional.</p>
+                    <button class="btn btn-primary" onclick="showNotification('Novo treinamento criado!')">Novo Treinamento</button>
+                </div>
+            </div>
+
+            <div id="avaliacao" class="section" style="display: none;">
+                <div class="card">
+                    <h3>Avaliação de Desempenho</h3>
+                    <p>Sistema completo de avaliação e feedback dos colaboradores.</p>
+                    <button class="btn btn-primary" onclick="showNotification('Avaliação iniciada!')">Nova Avaliação</button>
+                </div>
+            </div>
+
+            <div id="beneficios" class="section" style="display: none;">
+                <div class="card">
+                    <h3>Benefícios & Vantagens</h3>
+                    <p>Gerencie todos os benefícios oferecidos aos funcionários.</p>
+                    <button class="btn btn-primary" onclick="showNotification('Benefício adicionado!')">Novo Benefício</button>
+                </div>
+            </div>
+
+            <div id="ponto" class="section" style="display: none;">
+                <div class="card">
+                    <h3>Controle de Ponto</h3>
+                    <p>Sistema de controle de frequência e horas trabalhadas.</p>
+                    <button class="btn btn-primary" onclick="showNotification('Ponto registrado!')">Registrar Ponto</button>
+                </div>
+            </div>
+
+            <div id="relatorios" class="section" style="display: none;">
+                <div class="card">
+                    <h3>Relatórios & Analytics</h3>
+                    <p>Relatórios detalhados e análises de dados de RH.</p>
+                    <button class="btn btn-primary" onclick="showNotification('Relatório gerado!')">Gerar Relatório</button>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -764,7 +773,6 @@
         </div>
     </div>
 
-    <!-- Modais adicionais -->
     <div id="recrutamento-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -842,13 +850,6 @@
                 <h2>Folha de Pagamento</h2>
                 <button class="close-btn" onclick="closeModal('folha-modal')">&times;</button>
             </div>
-            <div class="chart-container">
-                <div class="chart-bar" style="height: 80px;"><span class="chart-label">Jan</span></div>
-                <div class="chart-bar" style="height: 120px;"><span class="chart-label">Fev</span></div>
-                <div class="chart-bar" style="height: 100px;"><span class="chart-label">Mar</span></div>
-                <div class="chart-bar" style="height: 150px;"><span class="chart-label">Abr</span></div>
-                <div class="chart-bar" style="height: 90px;"><span class="chart-label">Mai</span></div>
-            </div>
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-number" style="color: #48bb78;">R$ 1.2M</div>
@@ -857,6 +858,10 @@
                 <div class="stat-card">
                     <div class="stat-number" style="color: #ed8936;">R$ 340K</div>
                     <div class="stat-label">Encargos e Tributos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: #667eea;">247</div>
+                    <div class="stat-label">Funcionários Ativos</div>
                 </div>
             </div>
         </div>
@@ -912,7 +917,6 @@
                     </tbody>
                 </table>
             </div>
-            <button class="btn btn-primary" onclick="showNotification('Novo treinamento criado!')">Novo Treinamento</button>
         </div>
     </div>
 
@@ -934,35 +938,6 @@
                 <div class="stat-card">
                     <div class="stat-number" style="color: #ed8936;">12</div>
                     <div class="stat-label">Planos de Melhoria</div>
-                </div>
-            </div>
-            <div style="margin-top: 2rem;">
-                <h4>Próximas Avaliações:</h4>
-                <div class="table-container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Funcionário</th>
-                                <th>Avaliador</th>
-                                <th>Data</th>
-                                <th>Tipo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>João Silva</td>
-                                <td>Maria Santos</td>
-                                <td>15/02/2024</td>
-                                <td><span class="badge badge-info">360°</span></td>
-                            </tr>
-                            <tr>
-                                <td>Ana Costa</td>
-                                <td>Carlos Lima</td>
-                                <td>18/02/2024</td>
-                                <td><span class="badge badge-warning">Semestral</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -1017,14 +992,11 @@
     <script>
         // Navegação entre seções
         function showSection(sectionName) {
-            // Ocultar todas as seções
             const sections = document.querySelectorAll('.section');
             sections.forEach(section => section.style.display = 'none');
             
-            // Mostrar seção selecionada
             document.getElementById(sectionName).style.display = 'block';
             
-            // Atualizar título
             const titles = {
                 'dashboard': 'Dashboard Principal',
                 'funcionarios': 'Gestão de Funcionários',
@@ -1034,13 +1006,11 @@
                 'avaliacao': 'Avaliação de Desempenho',
                 'beneficios': 'Benefícios & Vantagens',
                 'ponto': 'Controle de Ponto',
-                'relatorios': 'Relatórios & Analytics',
-                'compliance': 'Compliance & Legal'
+                'relatorios': 'Relatórios & Analytics'
             };
             
             document.getElementById('section-title').textContent = titles[sectionName];
             
-            // Atualizar menu ativo
             const navLinks = document.querySelectorAll('.nav-link');
             navLinks.forEach(link => link.classList.remove('active'));
             event.target.classList.add('active');
@@ -1072,7 +1042,6 @@
             
             notificationText.textContent = message;
             notification.style.background = type === 'success' ? '#48bb78' : '#e53e3e';
-            notification.style.color = 'white';
             notification.classList.add('show');
             
             setTimeout(() => {
@@ -1082,7 +1051,6 @@
 
         // Adicionar funcionário
         function addFuncionario() {
-            // Aqui você adicionaria a lógica para salvar o funcionário
             showNotification('Funcionário adicionado com sucesso!');
             closeModal('add-funcionario-modal');
         }
@@ -1108,18 +1076,13 @@
             });
         });
 
-        // Responsividade - Menu mobile
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('open');
-        }
-
         // Simulação de dados em tempo real
         setInterval(() => {
             const statNumbers = document.querySelectorAll('.stat-number');
             statNumbers.forEach(stat => {
-                if (stat.textContent && !isNaN(parseInt(stat.textContent))) {
-                    const currentValue = parseInt(stat.textContent);
+                const text = stat.textContent;
+                if (text && !isNaN(parseInt(text))) {
+                    const currentValue = parseInt(text);
                     const variation = Math.floor(Math.random() * 3) - 1;
                     const newValue = Math.max(0, currentValue + variation);
                     stat.textContent = newValue;
@@ -1127,5 +1090,5 @@
             });
         }, 10000);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98118fbdb6f997d0',t:'MTc1ODIwNjAzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98119580e1bbf231',t:'MTc1ODIwNjI3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
